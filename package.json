@@ -1,0 +1,23 @@
+{
+  "name": "phaser-rpsd",
+  "version": "1.0.0",
+  "description": "phaser build of rock paper scissors (die!)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trentwirth/phaser-rpsd.git"
+  },
+  "keywords": [
+    "game",
+    "testing"
+  ],
+  "author": "Trenton D Wirth",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/trentwirth/phaser-rpsd/issues"
+  },
+  "homepage": "https://github.com/trentwirth/phaser-rpsd#readme"
+}
