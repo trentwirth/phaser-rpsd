@@ -35,14 +35,14 @@ var config = {
     scene: {
         preload: function() {
             // this.load.setBaseURL('https://labs.phaser.io');
-            this.load.image('player', 'assets/sprites/Player_RPSD.png');
-            this.load.image('npc1', 'assets/sprites/npc1.png');
-            this.load.image('npc2', 'assets/sprites/npc2.png');
-            this.load.image('npc3', 'assets/sprites/npc3.png');
-            this.load.image('npc4', 'assets/sprites/npc4.png');
-            this.load.image('rock', 'assets/sprites/rock.png');
-            this.load.image('paper', 'assets/sprites/paper.png');
-            this.load.image('scissors', 'assets/sprites/scissors.png');
+            this.load.image('player', 'src/assets/sprites/Player_RPSD.png');
+            this.load.image('npc1', 'src/assets/sprites/npc1.png');
+            this.load.image('npc2', 'src/assets/sprites/npc2.png');
+            this.load.image('npc3', 'src/assets/sprites/npc3.png');
+            this.load.image('npc4', 'src/assets/sprites/npc4.png');
+            this.load.image('rock', 'src/assets/sprites/rock.png');
+            this.load.image('paper', 'src/assets/sprites/paper.png');
+            this.load.image('scissors', 'src/assets/sprites/scissors.png');
         },
         create: function() {
             this.player = this.physics.add.image(100, 500, 'player');
