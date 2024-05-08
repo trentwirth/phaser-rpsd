@@ -34,7 +34,7 @@ var config = {
     },
     scene: {
         preload: function() {
-            this.load.setBaseURL('https://labs.phaser.io');
+            // this.load.setBaseURL('https://labs.phaser.io');
             this.load.image('player', 'assets/sprites/Player_RPSD.png');
             this.load.image('npc1', 'assets/sprites/npc1.png');
             this.load.image('npc2', 'assets/sprites/npc2.png');
