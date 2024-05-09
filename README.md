@@ -4,8 +4,5 @@
 # Notes
 
 Current issues:
-1. the game loads my sprites, but they need to be correctly sized. Position seems sus too
-2. playgame function doesn't seem to be working
-
-I'm sure there are more :D
-
+- the project works! But I want it to be "cleaner"
+- before I move any further, I want to separate my code into different files and maintain the current functionality.
