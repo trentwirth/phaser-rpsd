@@ -1,6 +1,6 @@
 export default class BattleScene extends Phaser.Scene {
     constructor() {
-        super('battleScene');
+        super('BattleScene');
         this.npcs = [
             {
                 name: 'Scissor-Swordsman',
@@ -32,14 +32,14 @@ export default class BattleScene extends Phaser.Scene {
     }
     
     preload() {
-        this.load.image('player', 'src/assets/sprites/Player_RPSD.png');
-        this.load.image('npc1', 'src/assets/sprites/npc1.png');
-        this.load.image('npc2', 'src/assets/sprites/npc2.png');
-        this.load.image('npc3', 'src/assets/sprites/npc3.png');
-        this.load.image('npc4', 'src/assets/sprites/npc4.png');
-        this.load.image('rock', 'src/assets/sprites/rock.png');
-        this.load.image('paper', 'src/assets/sprites/paper.png');
-        this.load.image('scissors', 'src/assets/sprites/scissors.png');
+        this.load.image('player', 'assets/sprites/Player_RPSD.png');
+        this.load.image('npc1', 'assets/sprites/npc1.png');
+        this.load.image('npc2', 'assets/sprites/npc2.png');
+        this.load.image('npc3', 'assets/sprites/npc3.png');
+        this.load.image('npc4', 'assets/sprites/npc4.png');
+        this.load.image('rock', 'assets/sprites/rock.png');
+        this.load.image('paper', 'assets/sprites/paper.png');
+        this.load.image('scissors', 'assets/sprites/scissors.png');
     }
   
     create() {
@@ -124,8 +124,8 @@ export default class BattleScene extends Phaser.Scene {
           callbackScope: this // Make sure "this" refers to the scene in the onComplete callback
         });
   
-        // Remove the text after 3 seconds
-        this.time.delayedCall(3000, function() {
+        // Remove the text after 1 seconds
+        this.time.delayedCall(1000, function() {
             challengerText.destroy();
         }, [], this);
     }
@@ -149,6 +149,11 @@ export default class BattleScene extends Phaser.Scene {
           ) {
             return 'win';
           } else {
+            // Remove the buttons
+            this.rock.destroy();
+            this.paper.destroy();
+            this.scissors.destroy();
+
             var loseText = this.add.text(400, 300, 'Death!', { fontSize: '32px', fill: '#ff0000' });
             loseText.setOrigin(0.5, 0.5); // Center the text
   
@@ -156,10 +161,16 @@ export default class BattleScene extends Phaser.Scene {
             this.time.delayedCall(1000, function() {
               loseText.destroy();
             }, [], this);
-  
-            this.score = 0; // Set the score to 0
-            this.scoreText.setText('score: ' + this.score); // Update the score text
-  
+            
+            // Store the high score
+            this.sys.game.global = this.sys.game.global || {};
+            this.sys.game.global.highScore = Math.max(this.score, this.sys.game.global.highScore || 0);
+            
+            // Delay the switch back to the StartScene by 2 seconds
+            this.time.delayedCall(2000, function() {
+                this.scene.start('StartScene');
+            }, [], this);
+
             return 'lose';
           }
       }
