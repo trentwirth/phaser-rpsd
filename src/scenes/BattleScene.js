@@ -43,13 +43,14 @@ export default class BattleScene extends Phaser.Scene {
     }
   
     create() {
+        this.playerState = this.registry.get('playerState');
         this.player = this.physics.add.image(100, 500, 'player').setScale(0.4);      
         this.npc = this.physics.add.image(600, 200, 'npc1').setScale(0.4);
         this.scissors = this.add.image(700, 500, 'scissors').setInteractive().setScale(0.25);
         this.paper = this.add.image(600, 500, 'paper').setInteractive().setScale(0.25);
         this.rock = this.add.image(500, 500, 'rock').setInteractive().setScale(0.25);
         this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
-        // this.npcs = npcs;
+        this.hpText = this.add.text(16, 48, 'HP: ' + this.playerState.hp, { fontSize: '32px', fill: '#fff' });
         this.currentNpcIndex = 0;
         this.score = 0;
         this.rock.on('pointerdown', () => {
@@ -115,7 +116,7 @@ export default class BattleScene extends Phaser.Scene {
         this.tweens.add({
           targets: this.npc,
           alpha: 0,
-          duration: 3000,
+          duration: 1000,
           onComplete: function() {
               var npcImageKey = 'npc' + (this.currentNpcIndex + 1); // Assumes NPC images are named 'npc1', 'npc2', etc.
               this.npc.setTexture(npcImageKey);
@@ -124,30 +125,39 @@ export default class BattleScene extends Phaser.Scene {
           callbackScope: this // Make sure "this" refers to the scene in the onComplete callback
         });
   
-        // Remove the text after 1 seconds
-        this.time.delayedCall(1000, function() {
+        // Remove the text after 0.25 seconds
+        this.time.delayedCall(250, function() {
             challengerText.destroy();
         }, [], this);
     }
   
-      getGameResult(playerChoice, npcChoice) {
-          if (playerChoice === npcChoice) {
-              
-              var drawText = this.add.text(400, 300, 'Draw!', { fontSize: '32px', fill: '#ff0000' });
-              drawText.setOrigin(0.5, 0.5); // Center the text
-  
-              // Remove the text after 1 seconds
-              this.time.delayedCall(1000, function() {
-                  drawText.destroy();
-              }, [], this);
-              
-              return 'draw';
-          } else if (
-            (playerChoice === 'rock' && npcChoice === 'scissors') ||
-            (playerChoice === 'paper' && npcChoice === 'rock') ||
-            (playerChoice === 'scissors' && npcChoice === 'paper')
-          ) {
-            return 'win';
+    getGameResult(playerChoice, npcChoice) {
+        if (playerChoice === npcChoice) {
+          // ...
+        } else if (
+          (playerChoice === 'rock' && npcChoice === 'scissors') ||
+          (playerChoice === 'paper' && npcChoice === 'rock') ||
+          (playerChoice === 'scissors' && npcChoice === 'paper')
+        ) {
+          return 'win';
+        } else {
+          // Check the player's HP
+          if (this.playerState.hp > 1) {
+            // The player takes damage
+            this.playerState.hp--;
+            var damageText = this.add.text(400, 300, 'DAMAGE', { fontSize: '32px', fill: '#ff0000' });
+            damageText.setOrigin(0.5, 0.5); // Center the text
+    
+            this.hpText.setText('HP: ' + this.playerState.hp); // Update the HP text
+            
+            this.registry.set('playerState', this.playerState);
+
+            // Remove the text after .5 seconds
+            this.time.delayedCall(500, function() {
+              damageText.destroy();
+            }, [], this);
+    
+            return 'draw';
           } else {
             // Remove the buttons
             this.rock.destroy();
@@ -174,4 +184,5 @@ export default class BattleScene extends Phaser.Scene {
             return 'lose';
           }
       }
-    }
+    }    
+}
